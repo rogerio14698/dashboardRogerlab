@@ -40,7 +40,7 @@ return [
     ],
 
     'n8n' => [
-        'url' => env('N8N_API_URL', 'http://n8n:5678'),
+        'url' => env('N8N_BASE_URL', env('N8N_API_URL', 'http://n8n:5678')),
         'api_key' => env('N8N_API_KEY'),
     ],
 
