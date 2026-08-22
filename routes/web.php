@@ -18,6 +18,11 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/system-metrics', MonitoringModuleController::class)->defaults('module', 'system-metrics')->name('monitoring.system-metrics');
+    Route::get('/docker', MonitoringModuleController::class)->defaults('module', 'docker')->name('monitoring.docker');
+    Route::get('/uptime', MonitoringModuleController::class)->defaults('module', 'uptime')->name('monitoring.uptime');
+    Route::get('/seo', MonitoringModuleController::class)->defaults('module', 'seo')->name('monitoring.seo');
+    Route::get('/n8n', MonitoringModuleController::class)->defaults('module', 'n8n')->name('monitoring.n8n');
     Route::get('/{module}', MonitoringModuleController::class)->name('monitoring.module');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

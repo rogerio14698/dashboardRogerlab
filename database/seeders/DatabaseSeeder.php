@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Subdomain;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,5 +29,12 @@ class DatabaseSeeder extends Seeder
             'password' => $password,
             'email_verified_at' => now(),
         ]);
+
+        foreach (array_filter(array_map('trim', explode(',', env('MONITORED_SUBDOMAINS', '')))) as $hostname) {
+            Subdomain::updateOrCreate(
+                ['name' => $hostname],
+                ['url' => 'https://' . $hostname, 'enabled' => true],
+            );
+        }
     }
 }
