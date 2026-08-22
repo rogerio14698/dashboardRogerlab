@@ -1,0 +1,3 @@
+import { Head, Link } from '@inertiajs/react';
+export default function Uptime() { return <Module title="Uptime" description="Disponibilidad y latencia de los subdominios configurados." />; }
+function Module({ title, description }: { title: string; description: string }) { return <><Head title={title} /><main className="min-h-screen bg-[#10161d] p-8 text-white"><Link href="/" className="text-sm text-cyan-300">&lt;- Overview</Link><h1 className="mt-10 text-4xl font-semibold">{title}</h1><p className="mt-3 text-slate-400">{description}</p><div className="mt-10 border border-dashed border-white/15 p-10 text-slate-500">A la espera del primer snapshot.</div></main></>; }
