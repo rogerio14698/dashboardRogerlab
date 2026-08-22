@@ -19,6 +19,10 @@
 /storage/*.key
 /storage/pail
 /vendor
+# Local-only administrator credential helpers.
+/database/seeders/AdminCredentials.php
+/database/seeders/create_admin.php
+/scripts/set-admin-password.php
 Homestead.json
 Homestead.yaml
 Thumbs.db

@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return auth()->check()
-        ? app(DashboardController::class)()
+    ? app(DashboardController::class)()
         : Inertia::render('Auth/Login');
 })->name('dashboard');
 
