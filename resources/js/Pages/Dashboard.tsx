@@ -19,7 +19,7 @@ type Props = {
 };
 
 const modules = [
-    ['System metrics', 'CPU, memoria, disco y red', '/'],
+    ['System metrics', 'CPU, memoria, disco y red', '/system-metrics'],
     ['Docker', 'Contenedores y acciones auditadas', '/docker'],
     ['Uptime', 'Disponibilidad de tus subdominios', '/uptime'],
     ['SEO', 'Salud tecnica por dominio', '/seo'],
