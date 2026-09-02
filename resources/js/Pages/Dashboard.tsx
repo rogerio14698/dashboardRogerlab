@@ -30,7 +30,7 @@ export default function Dashboard({ title, description, serverIp, updatedAt }: D
 
                     {/*Ver por ultimo como hacer esto:  */}
                     <p className="mt-4 text-slate-400">Ultimo Ping: {new Date(updatedAt).toLocaleString('es-ES')}</p>
-                    <h4 className="text-white">Ulimo cambio </h4>
+                    <h4 className="text-white">Último cambio 2.0 </h4>
 
                 </section>
             </main>
