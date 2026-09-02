@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->unique('subdomain_id')
             ->values();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Metrics', [
             'serverIp' => config('monitoring.server_ip'),
             'metrics' => SystemMetric::query()->latest('captured_at')->first(),
             'containers' => DockerContainer::query()->latest('captured_at')->limit(20)->get(),

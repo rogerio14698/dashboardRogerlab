@@ -43,5 +43,9 @@ return [
         'url' => env('N8N_BASE_URL', env('N8N_API_URL', 'http://n8n:5678')),
         'api_key' => env('N8N_API_KEY'),
     ],
+    'cloudflare' => [
+        'api_token' => env('CLOUDFLARE_API_TOKEN'),
+        'zone_id' => env('CLOUDFLARE_ZONE_ID'),
+    ],
 
 ];
