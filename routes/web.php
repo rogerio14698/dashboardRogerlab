@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\MonitoringModuleController;
@@ -30,6 +31,12 @@ Route::middleware('auth')->group(function (): void {
 
     // Pagina con el resumen completo de metricas del servidor.
     Route::get('/metrics', DashboardController::class)->name('metrics');
+
+    // Explorador de MariaDB y operaciones CRUD sobre la base y tabla seleccionadas.
+    Route::get('/data-base', [DatabaseController::class, 'index'])->name('database.index');
+    Route::post('/data-base/row', [DatabaseController::class, 'store'])->name('database.store');
+    Route::patch('/data-base/row', [DatabaseController::class, 'update'])->name('database.update');
+    Route::delete('/data-base/row', [DatabaseController::class, 'destroy'])->name('database.destroy');
 
     //Rutas para los modulos de monitoreo del servidor, cada modulo tiene su propia ruta y controlador.
     Route::get('/system-metrics', MonitoringModuleController::class)->defaults('module', 'system-metrics')->name('monitoring.system-metrics');

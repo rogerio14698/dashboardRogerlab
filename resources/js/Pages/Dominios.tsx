@@ -25,6 +25,17 @@ export default function Dominios({ dominios }: Props) {
                 <DashboardHeader onLogout={() => post('/logout')} />
 
                 {/* Tabla de los registros DNS recibidos y transformados desde Cloudflare. */}
+                {/* Nota, mas adelatante quiero ampliar esta zona y añadir un CRUD, pero para ello necesito
+                modificar las clave API de Cloudflare para que pueda escribir y editar los dominios.*/}
+
+                {/**Tambien quiero poner un pequeño form para añadir nuevos dominios y subdominios.
+                 * Tambien estaría bien bien poder configurar las DNS, los proxies y los certificados SSL.
+                 * 
+                 * Ver también si puedo añadir un pequeño panel de control para cada dominio, con un resumen de su estado y sus registros DNS.
+                 * Ver tambien cuanta gente ha visitado cada dominio y subdominio, y si hay alertas o problemas de disponibilidad.
+                 * 
+                 * 
+                 */}
                 <section className="mx-auto max-w-7xl px-6 py-12">
                     <h2 className="mb-4 text-2xl font-bold text-white">Dominios y Subdominios (Cloudflare)</h2>
                     <div className="overflow-x-auto border border-slate-700 bg-slate-900">
