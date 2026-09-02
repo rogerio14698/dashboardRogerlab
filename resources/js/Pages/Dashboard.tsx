@@ -32,7 +32,7 @@ export default function Dashboard({ title, description, serverIp, updatedAt }: D
                     <p className="mt-4 text-slate-400">Ultimo Ping: {new Date(updatedAt).toLocaleString('es-ES')}</p>
     
 
-                    <h3 className="mt-6 text-2xl font-semibold text-white">Prueba del webhook</h3>
+                    <h3 className="mt-6 text-2xl font-semibold text-white">Prueba del webhook ahora a ver </h3>
                 </section>
             </main>
         </>
