@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\Process\Process;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,59 +18,52 @@ use Symfony\Component\Process\Process;
 */
 
 Route::post('/deploy', function (Request $request) {
-    // 1. Opcional: Validar el Token de Seguridad (Secret)
-    // Para evitar que personas ajenas ejecuten tu despliegue visitando la URL,
-    // puedes configurar un "Secret" en el Webhook de GitHub y definirlo en tu .env como DEPLOY_SECRET.
+    // El secreto es obligatorio: sin él, el endpoint no puede ejecutar comandos remotos.
     $githubSecret = config('services.github.deploy_secret');
     $githubSignature = $request->header('X-Hub-Signature-256');
 
-    if ($githubSecret) {
-        $hash = 'sha256=' . hash_hmac('sha256', $request->getContent(), $githubSecret);
-        if (!hash_equals($hash, (string) $githubSignature)) {
-            Log::warning('Webhook de GitHub: Firma de seguridad no válida.');
-            return response()->json(['message' => 'Unauthorized'], 401);
+    if (! is_string($githubSecret) || $githubSecret === '') {
+        Log::critical('Webhook de despliegue deshabilitado: falta GITHUB_DEPLOY_SECRET.');
+
+        return response()->json(['status' => 'error', 'message' => 'Webhook no configurado.'], 503);
+    }
+
+    $hash = 'sha256=' . hash_hmac('sha256', $request->getContent(), $githubSecret);
+    if (! hash_equals($hash, (string) $githubSignature)) {
+        Log::warning('Webhook de GitHub: firma de seguridad no válida.');
+
+        return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+    }
+
+    try {
+        // Cada comando recibe argumentos separados y se ejecuta desde la raíz del proyecto, sin shell.
+        $commands = [
+            ['git', 'pull', 'origin', 'master'],
+            ['php8.3', 'artisan', 'migrate', '--force'],
+            ['php8.3', 'artisan', 'optimize:clear'],
+            ['php8.3', 'artisan', 'config:cache'],
+        ];
+
+        foreach ($commands as $command) {
+            $process = Process::path(base_path())->timeout(300)->run($command);
+
+            if (! $process->successful()) {
+                Log::error('Error en auto-despliegue.', [
+                    'command' => $command,
+                    'exit_code' => $process->exitCode(),
+                    'error' => $process->errorOutput(),
+                ]);
+
+                return response()->json(['status' => 'error', 'message' => 'Fallo al ejecutar el despliegue.'], 500);
+            }
         }
+    } catch (\Throwable $exception) {
+        Log::error('Excepción en auto-despliegue.', ['message' => $exception->getMessage()]);
+
+        return response()->json(['status' => 'error', 'message' => 'Error interno durante el despliegue.'], 500);
     }
 
-    // 2. Definir la ruta raíz de tu proyecto Laravel en el servidor
-    $basePath = base_path();
+    Log::info('Auto-despliegue ejecutado correctamente.');
 
-    // 3. Cadena de comandos a ejecutar en el servidor
-    // Se ejecutan en secuencia utilizando '&&' (si uno falla, la cadena se detiene)
-    $command = implode(' && ', [
-        "cd {$basePath}",
-        'git pull origin master',       // Trae los últimos cambios de GitHub
-        'php8.3 artisan migrate',          // Ejecuta migraciones 
-        'php8.3 artisan config:cache',     // Guarda en caché la configuración para mayor velocidad
-        'php8.3 artisan optimize:clear',   // Limpia las cachés viejas (vistas, rutas, eventos)
-    ]);
-
-    // 4. Ejecutar la orden en la terminal de Linux mediante el proceso de Symfony
-    $process = Process::fromShellCommandline($command);
-    $process->setTimeout(300); // Límite de tiempo de 5 minutos para completar el proceso
-    $process->run();
-
-    // 5. Verificar si el despliegue fue exitoso o devolvió algún error
-    if (!$process->isSuccessful()) {
-        Log::error('Error en Auto-Despliegue:', [
-            'output' => $process->getErrorOutput(),
-        ]);
-
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Fallo al ejecutar el despliegue.',
-            'error' => $process->getErrorOutput(),
-        ], 500);
-    }
-
-    // Registrar en los logs de Laravel que el despliegue fue exitoso
-    Log::info('Auto-despliegue ejecutado correctamente:', [
-        'output' => $process->getOutput(),
-    ]);
-
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Despliegue completado con éxito.',
-        'output' => trim($process->getOutput()),
-    ]);
+    return response()->json(['status' => 'success', 'message' => 'Despliegue completado con éxito.']);
 });

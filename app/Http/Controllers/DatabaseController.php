@@ -53,7 +53,7 @@ class DatabaseController extends Controller
         abort_if($values === [], 422, 'No hay valores para insertar.');
 
         DB::insert(
-            sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->identifier($database), implode(', ', array_map($this->identifier(...), array_keys($values))), implode(', ', array_fill(0, count($values), '?'))),
+            sprintf('INSERT INTO %s (%s) VALUES (%s)', $this->qualifiedTable($database, $table), implode(', ', array_map($this->identifier(...), array_keys($values))), implode(', ', array_fill(0, count($values), '?'))),
             array_values($values),
         );
 
