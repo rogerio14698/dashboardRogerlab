@@ -30,7 +30,8 @@ export default function Dashboard({ title, description, serverIp, updatedAt }: D
 
                     {/*Ver por ultimo como hacer esto:  */}
                     <p className="mt-4 text-slate-400">Ultimo Ping: {new Date(updatedAt).toLocaleString('es-ES')}</p>
-                    <h4 className="text-white">a ver ahora? respuesta 200</h4>
+                    <h4 className="text-white">Cambios Autoriza la clave SSH para www-data:
+En la terminal de tu VPS, ejecuta:</h4>
 
                 </section>
             </main>
