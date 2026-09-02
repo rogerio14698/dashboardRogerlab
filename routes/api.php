@@ -40,9 +40,9 @@ Route::post('/deploy', function (Request $request) {
     $command = implode(' && ', [
         "cd {$basePath}",
         'git pull origin master',       // Trae los últimos cambios de GitHub
-        'php artisan migrate',          // Ejecuta migraciones 
-        'php artisan config:cache',     // Guarda en caché la configuración para mayor velocidad
-        'php artisan optimize:clear',   // Limpia las cachés viejas (vistas, rutas, eventos)
+        'php8.3 artisan migrate',          // Ejecuta migraciones 
+        'php8.3 artisan config:cache',     // Guarda en caché la configuración para mayor velocidad
+        'php8.3 artisan optimize:clear',   // Limpia las cachés viejas (vistas, rutas, eventos)
     ]);
 
     // 4. Ejecutar la orden en la terminal de Linux mediante el proceso de Symfony
