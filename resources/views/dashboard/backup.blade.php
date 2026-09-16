@@ -14,6 +14,11 @@
             @if ($errors->has('backup'))
                 <div class="notice notice--danger" role="alert">{{ $errors->first('backup') }}</div>
             @endif
+            @if (session('backup_ready'))
+                <div class="notice notice--success" role="status">
+                    Backup preparado: <a href="{{ route('backup.download', session('backup_ready')) }}">descargar ahora</a>.
+                </div>
+            @endif
 
             <div class="backup-layout">
                 <section class="panel">
@@ -33,7 +38,7 @@
                             @foreach ($sources as $key => $source)
                                 <label class="backup-source">
                                     <input type="checkbox" name="sources[]" value="{{ $key }}"
-                                        @checked(old('sources.' . $loop->index, in_array($key, ['web', 'mysql', 'docker', 'ssl', 'cron', 'cron_system', 'cron_users', 'passwd', 'env'], true)))>
+                                        @checked(old('sources.' . $loop->index, $source['available'] && in_array($key, ['web', 'mysql', 'docker', 'ssl', 'cron', 'cron_system', 'cron_users', 'passwd', 'env'], true)))>
                                     <span>
                                         <strong>{{ $source['label'] }}</strong>
                                         <small>{{ $source['description'] }}</small>
@@ -45,7 +50,7 @@
                         @error('sources')
                             <p class="status--danger">{{ $message }}</p>
                         @enderror
-                        <button class="button button--primary" type="submit">Generar y descargar backup</button>
+                        <button class="button button--primary" type="submit">Generar backup</button>
                     </form>
                 </section>
 

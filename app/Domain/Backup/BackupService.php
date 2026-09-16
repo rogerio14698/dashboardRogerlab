@@ -10,7 +10,15 @@ class BackupService
 {
     public function sources(): array
     {
-        return config('backup.sources', []);
+        return collect(config('backup.sources', []))
+            ->map(function (array $source): array {
+                $path = $source['path'];
+
+                return $source + [
+                    'available' => is_string($path) && $path !== '' && file_exists($path),
+                ];
+            })
+            ->all();
     }
 
     public function latest(): ?array
@@ -77,6 +85,13 @@ class BackupService
         }
 
         return $path;
+    }
+
+    public function delete(string $path): void
+    {
+        if (is_file($path)) {
+            File::delete($path);
+        }
     }
 
     public function pathForDownload(string $name): string

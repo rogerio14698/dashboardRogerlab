@@ -28,7 +28,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function createBackup(Request $request, BackupService $backupService): BinaryFileResponse|RedirectResponse
+    public function createBackup(Request $request, BackupService $backupService): RedirectResponse
     {
         $validated = $request->validate([
             'sources' => ['required', 'array', 'min:1'],
@@ -38,9 +38,7 @@ class DashboardController extends Controller
         try {
             $path = $backupService->create($validated['sources']);
 
-            return response()->download($path, basename($path), [
-                'Content-Type' => 'application/zip',
-            ])->deleteFileAfterSend(true);
+            return redirect()->route('backup')->with('backup_ready', basename($path));
         } catch (Throwable $exception) {
             report($exception);
 
