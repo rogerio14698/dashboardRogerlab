@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 use App\Models\Domain;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\View\View;
 
 
 class DomainController extends Controller
@@ -15,7 +14,7 @@ class DomainController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $zoneId = config('services.cloudflare.zone_id');
         $apiToken = config('services.cloudflare.api_token');
@@ -46,7 +45,7 @@ class DomainController extends Controller
                 ->all();
         }
 
-        return Inertia::render('Dominios', [
+        return view('dashboard.domains', [
             'dominios' => $dominios,
         ]);
        

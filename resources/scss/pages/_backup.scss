@@ -1,0 +1,22 @@
+@use '../variables' as v;
+
+.backup-layout { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr); }
+.backup-sidebar { display: grid; align-content: start; gap: 1.5rem; }
+.panel__heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.panel__heading h3 { margin: .35rem 0 0; }
+.backup-form { margin-top: 1.5rem; }
+.backup-sources { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-bottom: 1.5rem; }
+.backup-source { display: flex; gap: .75rem; align-items: flex-start; border: 1px solid v.$border; padding: 1rem; background: v.$surface-raised; cursor: pointer; }
+.backup-source:has(input:checked) { border-color: v.$cyan; }
+.backup-source input { accent-color: v.$cyan; margin-top: .25rem; }
+.backup-source strong, .backup-source small, .backup-source code { display: block; }
+.backup-source small { color: v.$text-muted; margin: .35rem 0; }
+.backup-source code { overflow-wrap: anywhere; font-size: .75rem; }
+.notice { margin-bottom: 1.5rem; border: 1px solid v.$border; padding: 1rem; }
+.notice--danger { border-color: v.$red; color: v.$red; }
+.backup-notes { margin-top: 1.5rem; }
+
+@media (max-width: 800px) {
+    .backup-layout { grid-template-columns: 1fr; }
+    .panel__heading { flex-direction: column; }
+}

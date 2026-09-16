@@ -7,12 +7,11 @@ use App\Models\N8nExecution;
 use App\Models\SeoCheck;
 use App\Models\SystemMetric;
 use App\Models\SubdomainCheck;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\View\View;
 
 class MonitoringModuleController extends Controller
 {
-    public function __invoke(string $module): Response
+    public function __invoke(string $module): View
     {
         abort_unless(in_array($module, ['system-metrics', 'docker', 'uptime', 'seo', 'n8n'], true), 404);
 
@@ -25,6 +24,6 @@ class MonitoringModuleController extends Controller
             default => [],
         };
 
-        return Inertia::render('Modules/' . ucfirst($module), $props);
+        return view('dashboard.modules.show', [...$props, 'module' => $module]);
     }
 }

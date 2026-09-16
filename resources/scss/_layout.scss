@@ -1,0 +1,55 @@
+@use 'variables' as v;
+
+.site-header {
+    border-bottom: 1px solid v.$border;
+    background: v.$surface;
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+}
+
+.brand__eyebrow, .eyebrow {
+    color: v.$cyan;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+}
+
+.brand__title { margin: .25rem 0 0; font-size: 1.25rem; }
+.site-nav { display: flex; align-items: center; gap: 1rem; }
+.site-nav__link, .site-nav summary { color: v.$text-muted; font-size: .875rem; }
+.site-nav__link:hover, .site-nav summary:hover { color: white; }
+.site-nav details { position: relative; }
+.site-nav summary { cursor: pointer; list-style: none; }
+.site-nav summary::-webkit-details-marker { display: none; }
+.site-nav summary::after { content: ' ▾'; color: v.$text-muted; }
+.site-nav details[open] summary::after { content: ' ▴'; }
+.site-nav__menu {
+    position: absolute;
+    top: calc(100% + .75rem);
+    left: 0;
+    z-index: 10;
+    min-width: 12rem;
+    padding: .5rem;
+    border: 1px solid v.$border;
+    background: v.$surface-raised;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, .25);
+}
+.site-nav__menu a { display: block; padding: .5rem .75rem; white-space: nowrap; }
+.site-nav__menu a:hover { background: rgba(255, 255, 255, .08); color: white; }
+
+.page { min-height: calc(100vh - 5rem); }
+.page__content { max-width: 80rem; margin: 0 auto; padding: 3rem 1.5rem; }
+
+@media (max-width: 800px) {
+    .site-header__inner { align-items: flex-start; flex-direction: column; gap: 1rem; }
+    .site-nav { flex-wrap: wrap; }
+}

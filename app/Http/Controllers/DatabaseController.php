@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\View\View;
 use Throwable;
 
 class DatabaseController extends Controller
@@ -18,7 +17,7 @@ class DatabaseController extends Controller
      * Muestra el explorador. La base, tabla, página y búsqueda llegan como query parameters.
      * Esto permite compartir una URL concreta como /data-base?database=app&table=users.
      */
-    public function index(Request $request): Response
+    public function index(Request $request): View
     {
         $databases = $this->databases();
         $database = $request->string('database')->toString();
@@ -39,7 +38,7 @@ class DatabaseController extends Controller
             [$rows, $pagination] = $this->rows($database, $table, $columns, $request);
         }
 
-        return Inertia::render('Database', compact(
+        return view('dashboard.database', compact(
             'databases', 'database', 'tables', 'table', 'columns', 'rows', 'pagination'
         ));
     }

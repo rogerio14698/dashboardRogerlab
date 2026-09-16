@@ -1,0 +1,14 @@
+@use 'variables' as v;
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: v.$background;
+    color: v.$text;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }

@@ -1,0 +1,26 @@
+@use 'variables' as v;
+
+.card, .panel, .table-wrap, .form-card {
+    border: 1px solid v.$border;
+    background: v.$surface;
+}
+.card, .panel, .form-card { padding: 1.5rem; }
+.card-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+.stat__label { color: #64748b; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.stat__value { margin-top: .5rem; color: white; font-size: 1.5rem; font-weight: 600; }
+.data-list { margin-top: 1rem; }
+.data-list__row { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 0; border-bottom: 1px solid v.$border; font-size: .875rem; }
+.status--ok { color: v.$green; }
+.status--danger { color: v.$red; }
+.muted { color: v.$text-muted; }
+.button { display: inline-block; border: 1px solid v.$border; padding: .6rem 1rem; color: v.$text; background: transparent; }
+.button:hover { border-color: v.$cyan; }
+.button--primary { border-color: v.$cyan; background: v.$cyan; color: v.$background; font-weight: 700; }
+.field { display: block; color: v.$text; font-size: .875rem; }
+.field input, .field select, .field textarea { display: block; width: 100%; margin-top: .5rem; border: 1px solid v.$border; padding: .6rem .75rem; background: v.$surface-raised; color: white; outline: none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: v.$cyan; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: .875rem; }
+th { color: #94a3b8; background: rgba(255,255,255,.05); font-size: .75rem; text-transform: uppercase; }
+th, td { padding: .75rem 1rem; border-bottom: 1px solid v.$border; }
+code { color: v.$cyan; }

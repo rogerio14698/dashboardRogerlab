@@ -1,0 +1,12 @@
+@use '../variables' as v;
+
+.database-layout { display: grid; gap: 1.5rem; grid-template-columns: 15rem minmax(0, 1fr); }
+.database-sidebar { align-self: start; }
+.table-list { max-height: 60vh; margin-top: .5rem; overflow-y: auto; }
+.table-list a { display: block; padding: .5rem .75rem; color: v.$text-muted; }
+.table-list a:hover, .table-list a.is-active { background: rgba(v.$cyan, .15); color: v.$cyan; }
+.database-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.database-table td { max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.record-form { margin-top: 1rem; padding: 1rem; border: 1px solid v.$border; background: v.$surface-raised; }
+.record-form__fields { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+@media (max-width: 800px) { .database-layout { grid-template-columns: 1fr; } }

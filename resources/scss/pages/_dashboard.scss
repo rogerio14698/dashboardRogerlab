@@ -1,0 +1,8 @@
+@use '../variables' as v;
+
+.dashboard__intro { margin-bottom: 2.5rem; }
+.dashboard__panels { display: grid; gap: 1.5rem; margin-top: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.module-card { display: block; transition: transform .2s, border-color .2s; }
+.module-card:hover { transform: translateY(-.25rem); border-color: rgba(v.$cyan, .5); }
+.module-card__bar { height: .25rem; margin-top: 1.5rem; background: #475569; }
+.module-card__bar span { display: block; width: 75%; height: 100%; background: #34d399; }

@@ -7,7 +7,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\MonitoringModuleController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 //Redireccion inteligente a la raiz /
 Route::get('/', function () {
@@ -31,6 +30,11 @@ Route::middleware('auth')->group(function (): void {
 
     // Pagina con el resumen completo de metricas del servidor.
     Route::get('/metrics', DashboardController::class)->name('metrics');
+
+    //Pagina del backup completo del sistema.
+    Route::get('/backup', [DashboardController::class, 'backup'])->name('backup');
+    Route::post('/backup', [DashboardController::class, 'createBackup'])->name('backup.create');
+    Route::get('/backup/download/{backup}', [DashboardController::class, 'downloadBackup'])->name('backup.download');
 
     // Explorador de MariaDB y operaciones CRUD sobre la base y tabla seleccionadas.
     Route::get('/data-base', [DatabaseController::class, 'index'])->name('database.index');
