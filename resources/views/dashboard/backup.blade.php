@@ -14,10 +14,16 @@
             @if ($errors->has('backup'))
                 <div class="notice notice--danger" role="alert">{{ $errors->first('backup') }}</div>
             @endif
+            @if ($errors->has('upload'))
+                <div class="notice notice--danger" role="alert">{{ $errors->first('upload') }}</div>
+            @endif
             @if (session('backup_queued'))
                 <div class="notice notice--success" role="status">
                     Backup enviado a la cola. El enlace de descarga aparecera cuando termine el worker.
                 </div>
+            @endif
+            @if (session('backup_uploaded'))
+                <div class="notice notice--success" role="status">Punto de retorno subido correctamente.</div>
             @endif
 
             <div class="backup-layout">
@@ -34,15 +40,31 @@
 
                     <form method="POST" action="{{ route('backup.create') }}" class="backup-form">
                         @csrf
+                        <label class="field backup-name">
+                            Nombre del backup (opcional)
+                            <input type="text" name="name" value="{{ old('name') }}" placeholder="rogerlab-produccion">
+                            <small class="muted">Sin nombre se usa rogerlab-fecha-peso.zip.</small>
+                        </label>
                         <div class="backup-sources">
                             @foreach ($sources as $key => $source)
                                 <label class="backup-source">
                                     <input type="checkbox" name="sources[]" value="{{ $key }}"
-                                        @checked(old('sources.' . $loop->index, $source['available'] && in_array($key, ['web', 'mysql', 'docker', 'ssl', 'cron', 'cron_system', 'cron_users', 'passwd', 'env'], true)))>
+                                        @checked(in_array($key, old('sources', $source['available'] && in_array($key, ['web', 'mysql', 'docker', 'ssl', 'cron', 'cron_system', 'cron_users', 'passwd', 'env'], true) ? [$key] : []), true))>
                                     <span>
                                         <strong>{{ $source['label'] }}</strong>
                                         <small>{{ $source['description'] }}</small>
                                         <code>{{ $source['path'] ?: 'Configura BACKUP_SSH_PATH' }}</code>
+                                    </span>
+                                </label>
+                            @endforeach
+                            @foreach ($projectEnvSources as $key => $source)
+                                <label class="backup-source">
+                                    <input type="checkbox" name="sources[]" value="{{ $key }}"
+                                        @checked(in_array($key, old('sources', []), true))>
+                                    <span>
+                                        <strong>{{ $source['label'] }}</strong>
+                                        <small>{{ $source['description'] }}</small>
+                                        <code>{{ $source['path'] }}</code>
                                     </span>
                                 </label>
                             @endforeach
@@ -83,6 +105,24 @@
                     <div class="data-list__row"><span>Destino actual</span><span class="status--ok">Ordenador mediante descarga</span></div>
                     <div class="data-list__row"><span>Destino futuro</span><span class="muted">Google Drive con OAuth autorizado</span></div>
                 </div>
+            </section>
+
+            <section class="panel backup-upload">
+                <div class="panel__heading">
+                    <div>
+                        <p class="eyebrow">Punto de retorno</p>
+                        <h3>Subir un backup existente</h3>
+                    </div>
+                    <span class="status--ok">ZIP hasta 4 GB</span>
+                </div>
+                <p class="muted">El archivo se guarda en el servidor para poder descargarlo o usarlo en una restauracion posterior. No se extrae automaticamente.</p>
+                <p>La ruta de guardado en el servidor es: <code>{{ storage_path('app/backups') }}</code></p>
+                
+                <form method="POST" action="{{ route('backup.upload') }}" enctype="multipart/form-data" class="backup-upload__form">
+                    @csrf
+                    <input type="file" name="backup_file" accept=".zip,application/zip" required>
+                    <button class="button" type="submit">Subir punto de retorno</button>
+                </form>
             </section>
         </main>
     </div>

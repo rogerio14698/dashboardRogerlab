@@ -3,6 +3,7 @@
 namespace App\Domain\Backup;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\UploadedFile;
 use RuntimeException;
 use ZipArchive;
 
@@ -19,6 +20,38 @@ class BackupService
                 ];
             })
             ->all();
+    }
+
+    public function projectEnvSources(): array
+    {
+        $root = config('backup.projects_path');
+
+        if (!is_dir($root)) {
+            return [];
+        }
+
+        $projects = [];
+        foreach (File::directories($root) as $projectPath) {
+            $envPath = $projectPath . DIRECTORY_SEPARATOR . '.env';
+
+            if (!is_file($envPath)) {
+                continue;
+            }
+
+            $project = basename($projectPath);
+            $key = 'project_env:' . $project;
+            $projects[$key] = [
+                'label' => $project . ' · .env',
+                'description' => 'Variables de entorno del proyecto.',
+                'path' => $envPath,
+                'type' => 'file',
+                'available' => true,
+            ];
+        }
+
+        ksort($projects);
+
+        return $projects;
     }
 
     public function latest(): ?array
@@ -39,10 +72,10 @@ class BackupService
         ];
     }
 
-    public function create(array $sourceKeys): string
+    public function create(array $sourceKeys, ?string $requestedName = null): string
     {
         $selected = array_values(array_unique(array_filter($sourceKeys, 'is_string')));
-        $sources = $this->sources();
+        $sources = $this->sources() + $this->projectEnvSources();
         $unknown = array_diff($selected, array_keys($sources));
 
         if ($selected === [] || $unknown !== []) {
@@ -50,7 +83,7 @@ class BackupService
         }
 
         File::ensureDirectoryExists($this->storagePath());
-        $path = $this->storagePath() . DIRECTORY_SEPARATOR . 'backup-' . now()->format('Ymd-His') . '.zip';
+        $path = $this->storagePath() . DIRECTORY_SEPARATOR . 'building-' . bin2hex(random_bytes(8)) . '.zip';
         $archive = new ZipArchive();
 
         if ($archive->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
@@ -84,7 +117,33 @@ class BackupService
             throw new RuntimeException('El backup supera el limite configurado.');
         }
 
-        return $path;
+        $size = filesize($path);
+        $finalName = $this->safeArchiveName($requestedName, $size === false ? 0 : $size, $path);
+        $finalPath = $this->storagePath() . DIRECTORY_SEPARATOR . $finalName;
+
+        if ($finalPath !== $path) {
+            File::move($path, $finalPath);
+        }
+
+        return $finalPath;
+    }
+
+    public function storeUpload(UploadedFile $upload): string
+    {
+        if (strtolower($upload->getClientOriginalExtension()) !== 'zip') {
+            throw new RuntimeException('Solo se aceptan archivos ZIP validos.');
+        }
+
+        $archive = new ZipArchive();
+        if ($archive->open($upload->getRealPath()) !== true) {
+            throw new RuntimeException('El archivo ZIP no se puede abrir.');
+        }
+        $archive->close();
+
+        File::ensureDirectoryExists($this->storagePath());
+        $name = 'restore-point-' . now()->format('Ymd-His') . '-' . $upload->hashName();
+
+        return $upload->move($this->storagePath(), $name)->getPathname();
     }
 
     public function delete(string $path): void
@@ -145,6 +204,25 @@ class BackupService
     private function storagePath(): string
     {
         return config('backup.storage_path', storage_path('app/private/backups'));
+    }
+
+    private function safeArchiveName(?string $requestedName, int $size = 0, ?string $currentPath = null): string
+    {
+        $base = $requestedName ? preg_replace('/[^a-zA-Z0-9_-]+/', '-', trim($requestedName)) : 'rogerlab';
+        $base = trim((string) $base, '-_') ?: 'rogerlab';
+        $suffix = $requestedName ? '' : '-' . now()->format('Ymd-His') . '-' . max(1, (int) ceil($size / 1024 / 1024)) . 'MB';
+        $name = $base . $suffix . '.zip';
+        $path = $this->storagePath() . DIRECTORY_SEPARATOR . $name;
+
+        if ($currentPath !== null && $path === $currentPath) {
+            return $name;
+        }
+
+        if (is_file($path)) {
+            $name = $base . '-' . now()->format('Ymd-His') . '-' . bin2hex(random_bytes(2)) . $suffix . '.zip';
+        }
+
+        return $name;
     }
 
     private function formatBytes(int|false $bytes): string

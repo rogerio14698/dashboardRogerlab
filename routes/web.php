@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function (): void {
     //Pagina del backup completo del sistema.
     Route::get('/backup', [DashboardController::class, 'backup'])->name('backup');
     Route::post('/backup', [DashboardController::class, 'createBackup'])->name('backup.create');
+    Route::post('/backup/upload', [DashboardController::class, 'uploadBackup'])->name('backup.upload');
     Route::get('/backup/download/{backup}', [DashboardController::class, 'downloadBackup'])->name('backup.download');
 
     // Explorador de MariaDB y operaciones CRUD sobre la base y tabla seleccionadas.

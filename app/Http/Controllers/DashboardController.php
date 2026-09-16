@@ -23,6 +23,7 @@ class DashboardController extends Controller
             'serverIp' => config('monitoring.server_ip'),
             'updatedAt' => now()->toIso8601String(),
             'sources' => $backupService->sources(),
+            'projectEnvSources' => $backupService->projectEnvSources(),
             'latestBackup' => $backupService->latest(),
             'driveReady' => filled(config('backup.google_drive.refresh_token')) && filled(config('backup.google_drive.folder_id')),
         ]);
@@ -33,11 +34,29 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'sources' => ['required', 'array', 'min:1'],
             'sources.*' => ['string', 'distinct'],
+            'name' => ['nullable', 'string', 'max:80', 'regex:/^[a-zA-Z0-9 _-]+$/'],
         ]);
 
-        CreateBackup::dispatch($validated['sources']);
+        CreateBackup::dispatch($validated['sources'], $validated['name'] ?? null);
 
         return redirect()->route('backup')->with('backup_queued', true);
+    }
+
+    public function uploadBackup(Request $request, BackupService $backupService): RedirectResponse
+    {
+        $validated = $request->validate([
+            'backup_file' => ['required', 'file', 'max:4194304'],
+        ]);
+
+        try {
+            $backupService->storeUpload($validated['backup_file']);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return back()->withErrors(['upload' => 'El archivo no es un ZIP valido.']);
+        }
+
+        return redirect()->route('backup')->with('backup_uploaded', true);
     }
 
     public function downloadBackup(string $backup, BackupService $backupService): BinaryFileResponse

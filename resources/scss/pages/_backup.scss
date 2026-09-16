@@ -5,6 +5,7 @@
 .panel__heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .panel__heading h3 { margin: .35rem 0 0; }
 .backup-form { margin-top: 1.5rem; }
+.backup-name { max-width: 32rem; margin: 1.5rem 0; }
 .backup-sources { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-bottom: 1.5rem; }
 .backup-source { display: flex; gap: .75rem; align-items: flex-start; border: 1px solid v.$border; padding: 1rem; background: v.$surface-raised; cursor: pointer; }
 .backup-source:has(input:checked) { border-color: v.$cyan; }
@@ -16,6 +17,8 @@
 .notice--danger { border-color: v.$red; color: v.$red; }
 .notice--success { border-color: v.$green; color: v.$green; }
 .backup-notes { margin-top: 1.5rem; }
+.backup-upload { margin-top: 1.5rem; }
+.backup-upload__form { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.5rem; }
 
 @media (max-width: 800px) {
     .backup-layout { grid-template-columns: 1fr; }

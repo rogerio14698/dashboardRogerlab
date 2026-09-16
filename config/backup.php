@@ -71,6 +71,7 @@ return [
         '/var/lib/docker/containers',
     ],
     'storage_path' => storage_path('app/private/backups'),
+    'projects_path' => env('BACKUP_WEB_PATH', '/var/www'),
     'max_size_mb' => (int) env('BACKUP_MAX_SIZE_MB', 4096),
     'google_drive' => [
         'client_id' => env('GOOGLE_DRIVE_CLIENT_ID', env('ID_CLIENTE_GOOGLECLOUD')),

@@ -16,13 +16,13 @@ class CreateBackup implements ShouldQueue
 
     public int $timeout = 3600;
 
-    public function __construct(public array $sourceKeys)
+    public function __construct(public array $sourceKeys, public ?string $requestedName = null)
     {
     }
 
     public function handle(BackupService $backupService): void
     {
-        $backupService->create($this->sourceKeys);
+        $backupService->create($this->sourceKeys, $this->requestedName);
     }
 
     public function failed(Throwable $exception): void
