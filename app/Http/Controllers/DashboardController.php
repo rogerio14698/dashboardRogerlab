@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Backup\BackupService;
+use App\Jobs\CreateBackup;
 use App\Models\Alert;
 use App\Models\DockerContainer;
 use App\Models\N8nExecution;
@@ -13,7 +14,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Throwable;
 
 class DashboardController extends Controller
 {
@@ -28,24 +28,16 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function createBackup(Request $request, BackupService $backupService): RedirectResponse
+    public function createBackup(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'sources' => ['required', 'array', 'min:1'],
             'sources.*' => ['string', 'distinct'],
         ]);
 
-        try {
-            $path = $backupService->create($validated['sources']);
+        CreateBackup::dispatch($validated['sources']);
 
-            return redirect()->route('backup')->with('backup_ready', basename($path));
-        } catch (Throwable $exception) {
-            report($exception);
-
-            return back()->withInput()->withErrors([
-                'backup' => 'No se pudo generar el backup. Revisa las rutas disponibles y los permisos del servidor.',
-            ]);
-        }
+        return redirect()->route('backup')->with('backup_queued', true);
     }
 
     public function downloadBackup(string $backup, BackupService $backupService): BinaryFileResponse

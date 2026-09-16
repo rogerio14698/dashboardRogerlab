@@ -14,9 +14,9 @@
             @if ($errors->has('backup'))
                 <div class="notice notice--danger" role="alert">{{ $errors->first('backup') }}</div>
             @endif
-            @if (session('backup_ready'))
+            @if (session('backup_queued'))
                 <div class="notice notice--success" role="status">
-                    Backup preparado: <a href="{{ route('backup.download', session('backup_ready')) }}">descargar ahora</a>.
+                    Backup enviado a la cola. El enlace de descarga aparecera cuando termine el worker.
                 </div>
             @endif
 
