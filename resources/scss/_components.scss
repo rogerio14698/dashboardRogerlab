@@ -51,6 +51,7 @@
 }
 .boton {
     display: inline-block;
+    width: 100%;
     border: 1px solid v.$borde;
     padding: 0.6rem 1rem;
     color: v.$texto;
@@ -73,9 +74,12 @@
 .campo input,
 .campo select,
 .campo textarea {
-    display: block;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
     border: 1px solid v.$borde;
-    padding: 0.6rem 0.75rem;
+    padding: 0.3rem;
     background: v.$superficieElevada;
     color: white;
     outline: none;

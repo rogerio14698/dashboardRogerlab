@@ -1,38 +1,154 @@
-@use '../variables' as v;
+@use "../variables" as v;
 
-.rejillaBaseDatos { display: grid; gap: 1.5rem; grid-template-columns: 15rem minmax(0, 1fr); }
-.barraLateralBaseDatos { align-self: start; }
-.rejillaGestor { align-items: start; }
-.barraLateralGestor { display: grid; gap: 1.25rem; min-width: 0; overflow: hidden; }
-.barraLateralGestor > * { min-width: 0; max-width: 100%; }
-.introduccionGestor h2 { margin: .35rem 0 .5rem; }
-.introduccionGestor p { overflow-wrap: anywhere; }
-.introduccionGestor p:last-child { margin-bottom: 0; }
-.estadoGestor { padding: 1rem; }
-.estadoGestor h3 { margin: .35rem 0 0; overflow-wrap: anywhere; }
-.registroGestor { padding: 1rem; }
+.rejillaBaseDatos {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 15rem minmax(0, 1fr);
+}
+.barraLateralBaseDatos {
+    align-self: start;
+}
+.rejillaGestor {
+    align-items: start;
+}
+.barraLateralGestor {
+    display: grid;
+    gap: 1.25rem;
+    min-width: 0;
+    overflow: hidden;
+}
+.barraLateralGestor > * {
+    min-width: 0;
+    max-width: 100%;
+}
+.introduccionGestor h2 {
+    margin: 0.35rem 0 0.5rem;
+}
+.introduccionGestor p {
+    overflow-wrap: anywhere;
+}
+.introduccionGestor p:last-child {
+    margin-bottom: 0;
+}
+.estadoGestor {
+    padding: 1rem;
+}
+.estadoGestor h3 {
+    margin: 0.35rem 0 0;
+    overflow-wrap: anywhere;
+}
+.registroGestor {
+    padding: 1rem;
+}
 .registroGestor .formularioContenido,
-.registroGestor .camposFormulario { max-width: 100%; }
-.barraLateralGestor .selectorContenido { width: 100%; max-width: 100%; }
-.barraLateralGestor .selectorContenido select { min-width: 0; max-width: 100%; }
-.listaWebs { display: grid; gap: .75rem; }
-.elementoListaWeb { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-width: 0; border: 1px solid v.$borde; padding: .75rem; background: v.$superficieElevada; }
-.elementoListaWeb.activo { border-color: v.$cian; }
-.elementoListaWeb > div { min-width: 0; }
-.elementoListaWeb strong { display: block; color: v.$texto; overflow-wrap: anywhere; }
-.elementoListaWeb .textoSuave { margin: .25rem 0 0; overflow-wrap: anywhere; }
-.elementoListaWeb form { margin: 0; }
-.listaTablas { max-height: 60vh; margin-top: .5rem; overflow-y: auto; }
-.listaTablas a { display: block; padding: .5rem .75rem; color: v.$textoSuave; }
-.listaTablas a:hover, .listaTablas a.activo { background: rgba(v.$cian, .15); color: v.$cian; }
-.listaTablas form { margin: 0; }
-.botonTabla { display: block; width: 100%; min-width: 0; border: 0; padding: .5rem .75rem; color: v.$textoSuave; background: transparent; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
-.botonTabla:hover, .botonTabla.activo { background: rgba(v.$cian, .15); color: v.$cian; }
-.barraHerramientasBaseDatos { display: flex; align-items: end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-.tablaBaseDatos td { max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.formularioRegistro { margin-top: 1rem; padding: 1rem; border: 1px solid v.$borde; background: v.$superficieElevada; }
-.camposRegistro { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.registroGestor .camposFormulario {
+    max-width: 100%;
+}
+.barraLateralGestor .selectorContenido {
+    width: 100%;
+    max-width: 100%;
+}
+.barraLateralGestor .selectorContenido select {
+    min-width: 0;
+    max-width: 100%;
+}
+.listaWebs {
+    display: grid;
+    gap: 0.75rem;
+}
+.elementoListaWeb {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.4rem;
+    border: 1px solid v.$borde;
+    padding: 0.4rem;
+    background: v.$superficieElevada;
+}
+.elementoListaWeb.activo {
+    border-color: v.$cian;
+}
+.elementoListaWeb > div {
+    min-width: 0;
+}
+.elementoListaWeb strong {
+    display: block;
+    color: v.$texto;
+    overflow-wrap: anywhere;
+}
+.elementoListaWeb .textoSuave {
+    margin: 0.25rem 0 0;
+    overflow-wrap: anywhere;
+}
+.elementoListaWeb form {
+    margin: 0;
+}
+.listaTablas {
+    max-height: 60vh;
+    margin-top: 0.5rem;
+    overflow-y: auto;
+}
+.listaTablas a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: v.$textoSuave;
+}
+.listaTablas a:hover,
+.listaTablas a.activo {
+    background: rgba(v.$cian, 0.15);
+    color: v.$cian;
+}
+.listaTablas form {
+    margin: 0;
+}
+.botonTabla {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    padding: 0.5rem 0.75rem;
+    color: v.$textoSuave;
+    background: transparent;
+    text-align: left;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+.botonTabla:hover,
+.botonTabla.activo {
+    background: rgba(v.$cian, 0.15);
+    color: v.$cian;
+}
+.barraHerramientasBaseDatos {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.tablaBaseDatos td {
+    max-width: 18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.formularioRegistro {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid v.$borde;
+    background: v.$superficieElevada;
+}
+.camposRegistro {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
 @media (max-width: 800px) {
-	.rejillaBaseDatos { grid-template-columns: 1fr; }
-	.elementoListaWeb { align-items: stretch; flex-direction: column; }
+    .rejillaBaseDatos {
+        grid-template-columns: 1fr;
+    }
+    .elementoListaWeb {
+        align-items: stretch;
+        flex-direction: column;
+    }
 }
