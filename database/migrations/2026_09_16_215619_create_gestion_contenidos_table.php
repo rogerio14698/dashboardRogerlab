@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('database_name');
+            $table->string('upload_path')->nullable();
             $table->string('driver')->default('mysql');
             $table->string('host')->default('127.0.0.1');
             $table->unsignedInteger('port')->default(3306);
