@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/gestor-contenido', [GestionContenidoController::class, 'store'])->name('gestor-contenido.store');
     Route::post('/gestor-contenido/connect', [GestionContenidoController::class, 'connect'])->name('gestor-contenido.connect');
     Route::post('/gestor-contenido/save-row', [GestionContenidoController::class, 'saveTableRow'])->name('gestor-contenido.save-row');
+    Route::post('/gestor-contenido/delete-web', [GestionContenidoController::class, 'deleteWeb'])->name('gestor-contenido.delete-web');
 
     //Fin del gestor de contenido
 

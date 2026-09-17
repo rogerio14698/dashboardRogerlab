@@ -1,11 +1,11 @@
 @use 'variables' as v;
 
-.site-header {
-    border-bottom: 1px solid v.$border;
-    background: v.$surface;
+.encabezadoSitio {
+    border-bottom: 1px solid v.$borde;
+    background: v.$superficie;
 }
 
-.site-header__inner {
+.encabezadoSitioInterior {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,41 +15,41 @@
     padding: 1.25rem 1.5rem;
 }
 
-.brand__eyebrow, .eyebrow {
-    color: v.$cyan;
+.marcaEtiqueta, .etiquetaSuperior {
+    color: v.$cian;
     font-size: .75rem;
     font-weight: 700;
     letter-spacing: .25em;
     text-transform: uppercase;
 }
 
-.brand__title { margin: .25rem 0 0; font-size: 1.25rem; }
-.site-nav { display: flex; align-items: center; gap: 1rem; }
-.site-nav__link, .site-nav summary { color: v.$text-muted; font-size: .875rem; }
-.site-nav__link:hover, .site-nav summary:hover { color: white; }
-.site-nav details { position: relative; }
-.site-nav summary { cursor: pointer; list-style: none; }
-.site-nav summary::-webkit-details-marker { display: none; }
-.site-nav summary::after { content: ' ▾'; color: v.$text-muted; }
-.site-nav details[open] summary::after { content: ' ▴'; }
-.site-nav__menu {
+.marcaTitulo { margin: .25rem 0 0; font-size: 1.25rem; }
+.navegacionSitio { display: flex; align-items: center; gap: 1rem; }
+.enlaceNavegacion, .navegacionSitio summary { color: v.$textoSuave; font-size: .875rem; }
+.enlaceNavegacion:hover, .navegacionSitio summary:hover { color: white; }
+.navegacionSitio details { position: relative; }
+.navegacionSitio summary { cursor: pointer; list-style: none; }
+.navegacionSitio summary::-webkit-details-marker { display: none; }
+.navegacionSitio summary::after { content: ' ▾'; color: v.$textoSuave; }
+.navegacionSitio details[open] summary::after { content: ' ▴'; }
+.menuNavegacion {
     position: absolute;
     top: calc(100% + .75rem);
     left: 0;
     z-index: 10;
     min-width: 12rem;
     padding: .5rem;
-    border: 1px solid v.$border;
-    background: v.$surface-raised;
+    border: 1px solid v.$borde;
+    background: v.$superficieElevada;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, .25);
 }
-.site-nav__menu a { display: block; padding: .5rem .75rem; white-space: nowrap; }
-.site-nav__menu a:hover { background: rgba(255, 255, 255, .08); color: white; }
+.menuNavegacion a { display: block; padding: .5rem .75rem; white-space: nowrap; }
+.menuNavegacion a:hover { background: rgba(255, 255, 255, .08); color: white; }
 
-.page { min-height: calc(100vh - 5rem); }
-.page__content { max-width: 80rem; margin: 0 auto; padding: 3rem 1.5rem; }
+.pagina { min-height: calc(100vh - 5rem); }
+.paginaContenido { max-width: 80rem; margin: 0 auto; padding: 3rem 1.5rem; }
 
 @media (max-width: 800px) {
-    .site-header__inner { align-items: flex-start; flex-direction: column; gap: 1rem; }
-    .site-nav { flex-wrap: wrap; }
+    .encabezadoSitioInterior { align-items: flex-start; flex-direction: column; gap: 1rem; }
+    .navegacionSitio { flex-wrap: wrap; }
 }

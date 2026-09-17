@@ -60,9 +60,10 @@ class GestionContenidoController extends Controller
         config(['database.connections.gestor_web' => $this->connectionConfig($web)]);
         DB::purge('gestor_web');
 
-        $tables = collect(DB::connection('gestor_web')->select('SHOW TABLES'))
-            ->map(fn ($row) => (array) $row)
-            ->flatten()
+        $tables = collect(DB::connection('gestor_web')->select(
+            'SHOW TABLES FROM `' . str_replace('`', '``', $web->database_name) . '`'
+        ))
+            ->map(fn ($row) => (string) array_values((array) $row)[0])
             ->values()
             ->all();
 
@@ -85,7 +86,7 @@ class GestionContenidoController extends Controller
     public function saveTableRow(Request $request)
     {
         $webId = $request->input('web_id');
-        $table = $request->input('table');
+        $table = $request->input('selected_table');
         $values = $request->input('values', []);
 
         abort_unless($webId && $table, 422, 'Falta la web o la tabla a guardar.');
@@ -120,6 +121,14 @@ class GestionContenidoController extends Controller
             ->with('success', 'Registro añadido correctamente.');
     }
 
+    public function deleteWeb(Request $request)
+    {
+        $web = GestionContenido::query()->findOrFail($request->input('web_id'));
+        $web->update(['is_active' => false]);
+
+        return redirect()->route('gestor-contenido')->with('success', 'Web eliminada correctamente.');
+    }
+
     protected function tableColumnsFor(string $connectionName, string $table): array
     {
         return collect(DB::connection($connectionName)->select('SHOW COLUMNS FROM `' . str_replace('`', '``', $table) . '`'))
@@ -130,7 +139,7 @@ class GestionContenidoController extends Controller
                 'default' => $column->Default,
                 'extra' => $column->Extra,
             ])
-            ->reject(fn (array $column) => in_array($column['name'], ['created_at', 'updated_at', 'deleted_at'], true))
+            ->reject(fn (array $column) => $column['name'] === 'deleted_at')
             ->reject(fn (array $column) => str_contains(strtolower((string) $column['extra']), 'auto_increment'))
             ->values()
             ->all();

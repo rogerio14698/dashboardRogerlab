@@ -1,26 +1,295 @@
-@use 'variables' as v;
+@use "variables" as v;
 
-.card, .panel, .table-wrap, .form-card {
-    border: 1px solid v.$border;
-    background: v.$surface;
+.tarjeta,
+.panel,
+.envolturaTabla,
+.tarjetaFormulario {
+    border: 1px solid v.$borde;
+    background: v.$superficie;
 }
-.card, .panel, .form-card { padding: 1.5rem; }
-.card-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
-.stat__label { color: #64748b; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
-.stat__value { margin-top: .5rem; color: white; font-size: 1.5rem; font-weight: 600; }
-.data-list { margin-top: 1rem; }
-.data-list__row { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 0; border-bottom: 1px solid v.$border; font-size: .875rem; }
-.status--ok { color: v.$green; }
-.status--danger { color: v.$red; }
-.muted { color: v.$text-muted; }
-.button { display: inline-block; border: 1px solid v.$border; padding: .6rem 1rem; color: v.$text; background: transparent; }
-.button:hover { border-color: v.$cyan; }
-.button--primary { border-color: v.$cyan; background: v.$cyan; color: v.$background; font-weight: 700; }
-.field { display: block; color: v.$text; font-size: .875rem; }
-.field input, .field select, .field textarea { display: block; width: 100%; margin-top: .5rem; border: 1px solid v.$border; padding: .6rem .75rem; background: v.$surface-raised; color: white; outline: none; }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: v.$cyan; }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; text-align: left; font-size: .875rem; }
-th { color: #94a3b8; background: rgba(255,255,255,.05); font-size: .75rem; text-transform: uppercase; }
-th, td { padding: .75rem 1rem; border-bottom: 1px solid v.$border; }
-code { color: v.$cyan; }
+.tarjeta,
+.panel,
+.tarjetaFormulario {
+    padding: 1.5rem;
+}
+.rejillaTarjetas {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+.etiquetaEstadistica {
+    color: #64748b;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.valorEstadistica {
+    margin-top: 0.5rem;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.listaDatos {
+    margin-top: 1rem;
+}
+.filaDatos {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid v.$borde;
+    font-size: 0.875rem;
+}
+.estadoCorrecto {
+    color: v.$verde;
+}
+.estadoPeligro {
+    color: v.$rojo;
+}
+.textoSuave {
+    color: v.$textoSuave;
+}
+.boton {
+    display: inline-block;
+    border: 1px solid v.$borde;
+    padding: 0.6rem 1rem;
+    color: v.$texto;
+    background: transparent;
+}
+.boton:hover {
+    border-color: v.$cian;
+}
+.botonPrincipal {
+    border-color: v.$cian;
+    background: v.$cian;
+    color: v.$fondo;
+    font-weight: 700;
+}
+.campo {
+    display: block;
+    color: v.$texto;
+    font-size: 0.875rem;
+}
+.campo input,
+.campo select,
+.campo textarea {
+    display: block;
+    border: 1px solid v.$borde;
+    padding: 0.6rem 0.75rem;
+    background: v.$superficieElevada;
+    color: white;
+    outline: none;
+}
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: v.$cian;
+}
+.formularioContenido {
+    max-width: 760px;
+    min-width: 0;
+}
+.camposFormulario {
+    display: grid;
+    gap: 1.15rem;
+    max-width: 700px;
+    min-width: 0;
+}
+.campoFormulario {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+}
+.campoFormularioAncho {
+    grid-column: 1 / -1;
+}
+.etiquetaCampo {
+    color: v.$texto;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.metadatoFormulario {
+    margin-bottom: 0.35rem;
+    color: v.$textoSuave;
+    font-size: 0.78rem;
+}
+.encabezadoFormulario {
+    margin-bottom: 1.5rem;
+}
+.encabezadoFormulario h2 {
+    margin: 0.35rem 0 0.5rem;
+    color: v.$texto;
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+.encabezadoFormulario h2 strong {
+    color: v.$cian;
+    font-weight: 700;
+}
+.encabezadoFormulario p {
+    margin: 0;
+    color: v.$textoSuave;
+    font-size: 0.9rem;
+}
+.subtituloFormulario {
+    color: v.$cian;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.selectorContenido {
+    display: grid;
+    gap: 1rem;
+    max-width: 760px;
+}
+.selectorContenido .boton {
+    justify-self: start;
+}
+.selectorArchivo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.2rem;
+    margin-top: 0.5rem;
+    border: 1px dashed v.$borde;
+    padding: 0.65rem 0.85rem;
+    background: v.$superficieElevada;
+    color: v.$textoSuave;
+}
+.selectorArchivo:hover,
+.selectorArchivo:focus-within {
+    border-color: v.$cian;
+}
+.selectorArchivo input[type="file"] {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.etiquetaArchivo {
+    border: 1px solid v.$borde;
+    padding: 0.45rem 0.65rem;
+    color: v.$texto;
+    background: v.$superficie;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.ayudaArchivo {
+    font-size: 0.78rem;
+}
+.formularioDinamico .campo textarea {
+    min-height: 10rem;
+    resize: vertical;
+}
+.camposAutomaticos {
+    padding: 1.25rem;
+    border: 1px solid v.$borde;
+    background: v.$superficieElevada;
+}
+.constructorCampos {
+    display: grid;
+    gap: 1.25rem;
+}
+.encabezadoConstructor {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid v.$borde;
+    padding-bottom: 1rem;
+}
+.encabezadoConstructor h3 {
+    margin: 0.35rem 0 0.25rem;
+    color: v.$texto;
+    font-size: 1.1rem;
+}
+.encabezadoConstructor p {
+    margin: 0;
+    color: v.$textoSuave;
+    font-size: 0.85rem;
+}
+.filasConstructor {
+    display: grid;
+    gap: 0.75rem;
+}
+.filaConstructor {
+    display: grid;
+    grid-template-columns: minmax(10rem, 1fr) minmax(10rem, 1fr) minmax(
+            12rem,
+            1.3fr
+        ) auto;
+    align-items: end;
+    gap: 0.75rem;
+    border: 1px solid v.$borde;
+    padding: 0.85rem;
+    background: v.$superficieElevada;
+}
+.filaConstructor .campo {
+    min-width: 0;
+}
+.opcionesConstructor {
+    min-width: 0;
+}
+.opcionesConstructor textarea {
+    resize: vertical;
+}
+.vistaPreviaConstructor {
+    display: grid;
+    gap: 1.15rem;
+    border-top: 1px solid v.$borde;
+    padding-top: 1.25rem;
+}
+.vistaPreviaConstructor > .textoSuave {
+    margin: 0;
+}
+.eliminarFormulario {
+    margin-top: 1.5rem;
+}
+@media (max-width: 760px) {
+    .encabezadoConstructor,
+    .filaConstructor {
+        align-items: stretch;
+        flex-direction: column;
+        grid-template-columns: 1fr;
+    }
+}
+.tox-tinymce {
+    margin-top: 0.5rem;
+    border-color: v.$borde !important;
+    border-radius: 0 !important;
+}
+.tox .tox-edit-area__iframe {
+    background: white;
+}
+.envolturaTabla {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+}
+th {
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+th,
+td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid v.$borde;
+}
+code {
+    color: v.$cian;
+}

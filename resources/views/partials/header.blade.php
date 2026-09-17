@@ -1,14 +1,14 @@
-<header class="site-header">
-    <div class="site-header__inner">
-        <div class="brand">
-            <p class="brand__eyebrow">Rogerlab |</p>
-            <h1 class="brand__title">Dashboard del servidor</h1>
+<header class="encabezadoSitio">
+    <div class="encabezadoSitioInterior">
+        <div class="marca">
+            <p class="marcaEtiqueta">Rogerlab |</p>
+            <h1 class="marcaTitulo">Dashboard del servidor</h1>
         </div>
-        <nav class="site-nav" aria-label="Navegacion principal">
-            <a class="site-nav__link" href="{{ route('dashboard') }}">Inicio</a>
+        <nav class="navegacionSitio" aria-label="Navegacion principal">
+            <a class="enlaceNavegacion" href="{{ route('dashboard') }}">Inicio</a>
             <details>
                 <summary>Servidores y Redes</summary>
-                <div class="site-nav__menu">
+                <div class="menuNavegacion">
                     <a href="{{ route('domains.index') }}">Domains</a>
                     <a href="{{ route('database.index') }}">Database</a>
                     <a href="{{ route('monitoring.docker') }}">Containers</a>
@@ -20,7 +20,7 @@
             </details>
             <details>
                 <summary>Gestor de contenido</summary>
-                <div class="site-nav__menu">
+                <div class="menuNavegacion">
                     {{-- PAra un futuro esto va a ser dinámico voya  generar tantos enlaces como webs que quiera gestionar su contenido. --}}
                     <a href="{{ route('gestor-contenido') }}">Gestor de contenido</a>
 

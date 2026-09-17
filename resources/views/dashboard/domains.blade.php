@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="page">
+    <div class="pagina">
         @include('partials.header')
-        <main class="page__content">
+        <main class="paginaContenido">
             <h2>Dominios y Subdominios (Cloudflare)</h2>
-            <div class="table-wrap">
+            <div class="envolturaTabla">
                 <table>
                     <thead>
                         <tr>
@@ -21,12 +21,12 @@
                                 <td><strong>{{ $domain['name'] }}</strong></td>
                                 <td>{{ $domain['type'] }}</td>
                                 <td><code>{{ $domain['content'] }}</code></td>
-                                <td class="{{ $domain['proxied'] ? 'status--ok' : 'muted' }}">
+                                <td class="{{ $domain['proxied'] ? 'estadoCorrecto' : 'textoSuave' }}">
                                     {{ $domain['proxied'] ? 'Proxied (Nube)' : 'Solo DNS' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="muted">No hay registros DNS disponibles.</td>
+                                <td colspan="4" class="textoSuave">No hay registros DNS disponibles.</td>
                             </tr>
                         @endforelse
                     </tbody>

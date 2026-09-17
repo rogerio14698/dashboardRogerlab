@@ -6,7 +6,7 @@
     <title>{{ $title ?? config('app.name', 'Rogerlab | Dashboard del servidor') }}</title>
     @vite(['resources/scss/app.scss', 'resources/ts/app.ts'])
 </head>
-<body>
+<body class="cuerpo">
     @yield('content')
 </body>
 </html>

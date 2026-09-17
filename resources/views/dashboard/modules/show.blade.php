@@ -16,12 +16,12 @@
             'n8n' => ['title' => 'n8n', 'description' => 'Ejecuciones recientes y workflows que requieren atencion.'],
         ][$module];
     @endphp
-    <div class="page">
+    <div class="pagina">
         @include('partials.header')
-        <main class="page__content">
-            <p class="eyebrow">Monitorizacion</p>
+        <main class="paginaContenido">
+            <p class="etiquetaSuperior">Monitorizacion</p>
             <h2>{{ $moduleData['title'] }}</h2>
-            <p class="muted">{{ $moduleData['description'] }}</p>
+            <p class="textoSuave">{{ $moduleData['description'] }}</p>
 
             @if ($module === 'system-metrics')
                 @php
