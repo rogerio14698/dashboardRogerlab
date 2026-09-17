@@ -44,10 +44,41 @@ El worker es necesario para generar Backups. Si no esta activo, el panel mostrar
 - **Metricas**: carga, memoria, contenedores, uptime, n8n, SEO y alertas.
 - **Domains**: dominios y subdominios monitorizados.
 - **Database**: explorador y operaciones CRUD autorizadas.
+- **Gestor de contenido**: selector de web para conectar dinamicamente a la base de datos adecuada.
 - **Servidores y Redes**: metricas del sistema, Docker y uptime.
 - **Backup**: generacion, descarga, subida de puntos de retorno y seleccion de fuentes.
 
 Todas las rutas privadas estan protegidas por autenticacion. El navegador no debe acceder directamente al socket Docker, al sistema operativo ni a secretos.
+
+## Gestor de contenido multiweb
+
+El gestor de contenido permite elegir una web desde un selector y conectar automaticamente a la base de datos asociada. La idea es simple y escalable: cada web tiene sus propias variables en `.env` y el controlador carga la configuracion correcta cuando se selecciona una opcion.
+
+Ejemplo de configuracion:
+
+```dotenv
+WEB_DB_PORTFOLIO_DRIVER=mysql
+WEB_DB_PORTFOLIO_HOST=127.0.0.1
+WEB_DB_PORTFOLIO_PORT=3306
+WEB_DB_PORTFOLIO_DATABASE=portfolio_blog
+WEB_DB_PORTFOLIO_USERNAME=root
+WEB_DB_PORTFOLIO_PASSWORD=
+
+WEB_DB_WEB2_DRIVER=mysql
+WEB_DB_WEB2_HOST=127.0.0.1
+WEB_DB_WEB2_PORT=3306
+WEB_DB_WEB2_DATABASE=web2_blog
+WEB_DB_WEB2_USERNAME=root
+WEB_DB_WEB2_PASSWORD=
+```
+
+Si quieres anadir otra web, solo duplicas ese bloque con otra clave como `WEB_DB_WEB3_...` y la agregas al selector del formulario. El flujo es:
+
+1. El usuario elige `portfolio`, `web2`, `web3`.
+2. Laravel lee la configuracion correspondiente desde `.env`.
+3. La aplicacion contecta a esa base de datos y muestra sus tablas.
+4. A partir de aqui ya puedes crear el CRUD para insertar, editar o borrar contenido de esa web concreta.
+
 ## Backup
 
 La pantalla `/backup` permite:

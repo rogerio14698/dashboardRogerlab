@@ -45,10 +45,7 @@ class DomainController extends Controller
                 ->all();
         }
 
-        return view('dashboard.domains', [
-            'dominios' => $dominios,
-        ]);
-       
+        return view('dashboard.domains', ['dominios' => $dominios]);
     }
 
     /**

@@ -21,9 +21,10 @@
             <details>
                 <summary>Gestor de contenido</summary>
                 <div class="site-nav__menu">
-                    <a href="/portfolio">Portfolio</a>
-                    <a href="/api-pokemon">API pokemon</a>
-                    <a href="/blog-recetas">Blog de recetas</a>
+                    {{-- PAra un futuro esto va a ser dinámico voya  generar tantos enlaces como webs que quiera gestionar su contenido. --}}
+                    <a href="{{ route('gestor-contenido') }}">Gestor de contenido</a>
+
+                    
                 </div>
             </details>
             <form method="POST" action="{{ route('logout') }}">

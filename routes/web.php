@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\GestionContenidoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\MonitoringModuleController;
@@ -22,6 +23,17 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+
+    /*Inicio del gestor de contenido */
+    Route::get('/gestor-contenido', [GestionContenidoController::class, 'index'])->name('gestor-contenido');
+    Route::post('/gestor-contenido', [GestionContenidoController::class, 'store'])->name('gestor-contenido.store');
+    Route::post('/gestor-contenido/connect', [GestionContenidoController::class, 'connect'])->name('gestor-contenido.connect');
+    Route::post('/gestor-contenido/save-row', [GestionContenidoController::class, 'saveTableRow'])->name('gestor-contenido.save-row');
+
+    //Fin del gestor de contenido
+
+
+
     // Pagina de inicio: una vista sencilla que sirve como punto de entrada.
     Route::get('/dashboard', HomeController::class)->name('dashboard');
 
